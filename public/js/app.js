@@ -102,6 +102,79 @@ function changePassword() {
     alert("Password changed successfully");
 }
 
+//! ---------- BankMenu -----------
+function bankMenu(user) {
+    let choice = prompt(`
+BANK MENU \n
+1 - Logout \n
+2 - Withdraw  \n
+3 - Deposit \n
+4 - Take Loan \n
+5 - Invest \n
+6 - History \n
+`);
+
+    if (choice === "1") {
+        alert("Logged out");
+        return;
+    }
+
+    else if (choice === "2") {
+        let w = Number(prompt("Withdraw amount:"));
+        if (w > 0 && w <= user.balance) {
+            user.balance -= w;
+            user.transactions.push("Withdraw -" + w + " DH");
+            alert("Withdraw successful");
+        } else {
+            alert("Invalid amount");
+        }
+    }
+
+    else if (choice === "3") {
+        let d = Number(prompt("Deposit amount (max 1000):"));
+        if (d > 0 && d <= 1000) {
+            user.balance += d;
+            user.transactions.push("Deposit +" + d + " DH");
+            alert("Deposit successful");
+        } else {
+            alert("Invalid amount");
+        }
+    }
+
+    else if (choice === "4") {
+        let loan = user.balance * 0.2;
+        user.balance += loan;
+        user.loans += loan;
+        user.transactions.push("Loan +" + loan + " DH");
+        alert("Loan granted: " + loan + " DH");
+    }
+
+    else if (choice === "5") {
+        let inv = Number(prompt("Investment amount:"));
+        if (inv > 0 && inv <= user.balance) {
+            user.balance -= inv;
+            user.investments.push(inv);
+            user.transactions.push("Invest -" + inv + " DH");
+            alert("Investment successful");
+        } else {
+            alert("Invalid amount");
+        }
+    }
+
+    else if (choice === "6") {
+        if (user.transactions.length > 0) {
+            alert(user.transactions.join("\n"));
+        } else {
+            alert("No history yet");
+        }
+    }
+
+    else {
+        alert("Invalid choice");
+    }
+
+    bankMenu(user); 
+}
 
 
 
