@@ -1,22 +1,61 @@
 // ### First Project JavaScript:
 
 
-let users = [] 
+// let users = [] 
 
-function validateName(name) {
-  if (!name) return false;
-  name = name.trim();
-  if (name.length < 5) return false;
-  if (/[^a-zA-Z ]/.test(name)) return false;
+// //! ------------- NAME ---------------------
 
-  let words = name.split(" ");
-  let formatted = words.map(w =>
-    w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
-  );
-  return formatted.join(" ");
-}
+// function validateName(name) {
+//   if (!name) return false;
+//   name = name.trim();
+//   if (name.length < 5) return false;
+//   if (/[^a-zA-Z ]/.test(name)) return false;
+
+//   let words = name.split(" ");
+//   let finalName = words.map(w =>
+//     w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+//   );
+//   return finalName.join(" ");
+// }
+
+// //!-------------------- Email --------------
+
+// function validateEmail(email) {
+//   if (!email) return false;
+  
+//   email = email.trim().toLowerCase();
+
+//   if (email.includes(" ")) return false;
+//   if (email.length < 10) return false;
+
+//   let atCount = email.split("@").length - 1;
+//   if (atCount !== 1) return false;
+
+//   // Check if email already exists in users array
+
+//   let exists = users.find(u => u.email === email);
+//   if (exists) return false;
+
+//   return true; // valid email
+// }
 
 
+// // !------------------- Password -----------
+
+// function validatePassword(password) {
+//   if (!password) return false;
+//   let specials = ["@", "#", "-", "+", "*", "/"];
+
+//   if (password.trim() !== password) return false;
+//   if (password.includes(" ")) return false;
+//   if (password.length < 7) return false;
+
+// let hasSpecial = specials.some(s => password.includes(s));
+// if (!hasSpecial) return false;
+
+
+//   return password;
+// }
 
 
 
@@ -64,6 +103,65 @@ function validateName(name) {
 //             - Do not save the Password if it has spaces in the middle.
 //             - Require at least one special character from the set: ["@", "#", "-", "+", "*", "/"].
 //             - Require at least 7 characters to confirm the password.
+
+
+class User {
+    constructor(name, email, age, password) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.password = password;
+        this.balance = 0;
+        this.transactions = [];
+        this.loans = 0;
+        this.investments = [];
+    }
+}
+
+const users = [];
+
+// ===== Validations =====
+function capitalizeName(name) {
+    return name
+        .trim()
+        .split(" ")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ");
+}
+
+function validateName(name) {
+    name = name.trim();
+    if (name.length < 5) return false;
+    if (/[^a-zA-Z\s]/.test(name)) return false;
+    return true;
+}
+
+function validateEmail(email) {
+    email = email.trim().toLowerCase();
+    if (email.includes(" ")) return false;
+    if (!email.includes("@") || email.indexOf("@") !== email.lastIndexOf("@")) return false;
+    if (email.length < 10) return false;
+    if (users.some(u => u.email === email)) return false;
+    return true;
+}
+
+function validateAge(age) {
+    age = age.trim();
+    if (!/^\d{1,2}$/.test(age)) return false;
+    return true;
+}
+
+function validatePassword(password) {
+    password = password.trim();
+    if (password.includes(" ")) return false;
+    if (!/[@#\-\+\*\/]/.test(password)) return false;
+    if (password.length < 7) return false;
+    return true;
+}
+
+
+
+
 
 //             # Password_confirmed:
 //             - The user must re-enter their exact password; otherwise, they are blocked.
