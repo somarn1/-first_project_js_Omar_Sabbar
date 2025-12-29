@@ -17,7 +17,6 @@ class User {
 const users = [];
 
 // !===== Validations =====
-
 function capitalizeName(name) {
     return name.trim().split(" ")
         .map(w => w[0].toUpperCase() + w.slice(1).toLowerCase())
@@ -51,17 +50,17 @@ function validatePassword(password) {
 // ^===== SIGN UP =====
 
 function signUp() {
-    let name = prompt("Dkhel smitk Kamla ");
+    let name = prompt("dkhel full name dyalk :");
     if (!validateName(name)) return alert("Invalid name"), signUp();
     name = capitalizeName(name);
 
-    let email = prompt("Dkhel email dyalk :");
+    let email = prompt("dkhel email dyalk :");
     if (!validateEmail(email)) return alert("Invalid email"), signUp();
 
-    let age = prompt("Dkhel age dyalk:");
+    let age = prompt("3tina age dyalk :");
     if (!validateAge(age)) return alert("Invalid age"), signUp();
 
-    let password = prompt("Dkhel password li bghiti :");
+    let password = prompt("dkhel password dyalk :");
     if (!validatePassword(password)) return alert("Invalid password"), signUp();
 
     let confirm = prompt("Confirm password:");
@@ -71,7 +70,19 @@ function signUp() {
     alert("Account created successfully ");
 }
 
+// *===== LOGIN =====
 
+function login() {
+    let email = prompt("Dkhel email:");
+    let user = users.find(u => u.email === email?.toLowerCase());
+    if (!user) return alert("Email not found"), login();
+
+    let password = prompt("dkhel password:");
+    if (password !== user.password) return alert("Wrong password"), login();
+
+    alert(`Welcome ${user.name}\nBalance: ${user.balance} DH`);
+    bankMenu(user);
+}
 
 
 
