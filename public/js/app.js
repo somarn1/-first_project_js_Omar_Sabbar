@@ -176,6 +176,30 @@ BANK MENU \n
     bankMenu(user); 
 }
 
+//^===== MAIN MENU =====
+
+function mainMenu() {
+    let action = prompt(
+        "MAIN MENU\n" +
+        "signUp\n" +
+        "login\n" +
+        "changePassword\n" +
+        "exit"
+    );
+
+    if (action === "exit") return;
+
+    if (action === "signUp") signUp();
+    else if (action === "login") login();
+    else if (action === "changePassword") changePassword();
+    else alert("Invalid action");
+
+    mainMenu();
+}
+
+//! ===== START =====
+
+mainMenu();
 
 
 
