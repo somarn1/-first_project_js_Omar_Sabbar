@@ -1,61 +1,77 @@
 // ### First Project JavaScript:
 
 
-// let users = [] 
+class User {
+    constructor(name, email, age, password) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.password = password;
+        this.balance = 0;
+        this.transactions = [];
+        this.loans = 0;
+        this.investments = [];
+    }
+}
 
-// //! ------------- NAME ---------------------
+const users = [];
 
-// function validateName(name) {
-//   if (!name) return false;
-//   name = name.trim();
-//   if (name.length < 5) return false;
-//   if (/[^a-zA-Z ]/.test(name)) return false;
+// !===== Validations =====
 
-//   let words = name.split(" ");
-//   let finalName = words.map(w =>
-//     w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
-//   );
-//   return finalName.join(" ");
-// }
+function capitalizeName(name) {
+    return name.trim().split(" ")
+        .map(w => w[0].toUpperCase() + w.slice(1).toLowerCase())
+        .join(" ");
+}
 
-// //!-------------------- Email --------------
+function validateName(name) {
+    name = name.trim();
+    return name.length >= 5 && /^[a-zA-Z\s]+$/.test(name);
+}
 
-// function validateEmail(email) {
-//   if (!email) return false;
-  
-//   email = email.trim().toLowerCase();
+function validateEmail(email) {
+    email = email.trim().toLowerCase();
+    if (email.includes(" ")) return false;
+    if (email.indexOf("@") !== email.lastIndexOf("@")) return false;
+    if (email.length < 10) return false;
+    return !users.some(u => u.email === email);
+}
 
-//   if (email.includes(" ")) return false;
-//   if (email.length < 10) return false;
+function validateAge(age) {
+    return /^\d{1,2}$/.test(age.trim());
+}
 
-//   let atCount = email.split("@").length - 1;
-//   if (atCount !== 1) return false;
+function validatePassword(password) {
+    password = password.trim();
+    return password.length >= 7 &&
+           !password.includes(" ") &&
+           /[@#\-\+\*\/]/.test(password);
+}
 
-//   // Check if email already exists in users array
+// ^===== SIGN UP =====
 
-//   let exists = users.find(u => u.email === email);
-//   if (exists) return false;
+function signUp() {
+    let name = prompt("Dkhel smitk Kamla ");
+    if (!validateName(name)) return alert("Invalid name"), signUp();
+    name = capitalizeName(name);
 
-//   return true; // valid email
-// }
+    let email = prompt("Dkhel email dyalk :");
+    if (!validateEmail(email)) return alert("Invalid email"), signUp();
+
+    let age = prompt("Dkhel age dyalk:");
+    if (!validateAge(age)) return alert("Invalid age"), signUp();
+
+    let password = prompt("Dkhel password li bghiti :");
+    if (!validatePassword(password)) return alert("Invalid password"), signUp();
+
+    let confirm = prompt("Confirm password:");
+    if (confirm !== password) return alert("Passwords not matching"), signUp();
+
+    users.push(new User(name, email.toLowerCase(), age, password));
+    alert("Account created successfully ");
+}
 
 
-// // !------------------- Password -----------
-
-// function validatePassword(password) {
-//   if (!password) return false;
-//   let specials = ["@", "#", "-", "+", "*", "/"];
-
-//   if (password.trim() !== password) return false;
-//   if (password.includes(" ")) return false;
-//   if (password.length < 7) return false;
-
-// let hasSpecial = specials.some(s => password.includes(s));
-// if (!hasSpecial) return false;
-
-
-//   return password;
-// }
 
 
 
@@ -104,60 +120,6 @@
 //             - Require at least one special character from the set: ["@", "#", "-", "+", "*", "/"].
 //             - Require at least 7 characters to confirm the password.
 
-
-class User {
-    constructor(name, email, age, password) {
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.password = password;
-        this.balance = 0;
-        this.transactions = [];
-        this.loans = 0;
-        this.investments = [];
-    }
-}
-
-const users = [];
-
-// ===== Validations =====
-function capitalizeName(name) {
-    return name
-        .trim()
-        .split(" ")
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(" ");
-}
-
-function validateName(name) {
-    name = name.trim();
-    if (name.length < 5) return false;
-    if (/[^a-zA-Z\s]/.test(name)) return false;
-    return true;
-}
-
-function validateEmail(email) {
-    email = email.trim().toLowerCase();
-    if (email.includes(" ")) return false;
-    if (!email.includes("@") || email.indexOf("@") !== email.lastIndexOf("@")) return false;
-    if (email.length < 10) return false;
-    if (users.some(u => u.email === email)) return false;
-    return true;
-}
-
-function validateAge(age) {
-    age = age.trim();
-    if (!/^\d{1,2}$/.test(age)) return false;
-    return true;
-}
-
-function validatePassword(password) {
-    password = password.trim();
-    if (password.includes(" ")) return false;
-    if (!/[@#\-\+\*\/]/.test(password)) return false;
-    if (password.length < 7) return false;
-    return true;
-}
 
 
 
