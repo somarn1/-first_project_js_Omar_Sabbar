@@ -85,6 +85,25 @@ function login() {
 }
 
 
+// *===== CHANGE PASSWORD =====
+
+function changePassword() {
+    let email = prompt("Enter email:");
+    let user = users.find(u => u.email === email?.toLowerCase());
+    if (!user) return alert("Email not found");
+
+    let newPass = prompt("New password:");
+    if (!validatePassword(newPass)) return alert("Invalid password"), changePassword();
+
+    let confirm = prompt("Confirm password:");
+    if (confirm !== newPass) return alert("Passwords not matching"), changePassword();
+
+    user.password = newPass;
+    alert("Password changed successfully");
+}
+
+
+
 
 
 // ## 1 - Instructions:
